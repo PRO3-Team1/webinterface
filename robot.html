@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>NippleJS</title>
+        <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
+        <style>
+        html, body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+        }
+        #left {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        </style>
+    </head>
+    <body>
+        <h1>Force</h1>
+        <h1 id="force">N/A</h1>
+        <h1>Angle</h1>
+        <h1 id="angle">N/A</h1>
+        
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+        <script>
+         
+        var socket = io('http://:8000');
+        
+        socket.on('data', function (force, angle) {
+                var el = document.getElementById('force');
+                el.innerHTML = force;
+                var el = document.getElementById('angle');
+                el.innerHTML = angle;
+            }
+        );
+    
+        </script>
+    </body>
+</html>
