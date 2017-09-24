@@ -10,6 +10,10 @@
     ],
     "author": "JCT",
     "contributors": [],
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
     "dependencies": {
         "express": "^4.15.4",
         "mqtt": "^2.13.0",
