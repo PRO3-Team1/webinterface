@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>NippleJS</title>
+        <title>Robot Interface</title>
         <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
         <style>
         html, body {
@@ -14,18 +14,13 @@
             padding: 0;
             margin: 0;
         }
-        #left {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 100%;
-            background: rgba(0, 255, 0, 0.1);
-        }
-
         </style>
     </head>
     <body>
+        <h1>Users</h1>
+        <h1 id="status_users">N/A</h1>
+        <h1>State</h1>
+        <h1 id="state">N/A</h1>
         <h1>Force</h1>
         <h1 id="force">N/A</h1>
         <h1>Angle</h1>
@@ -38,11 +33,43 @@
          
         var socket = io('');
         
+        socket.on('connect', function (data) {
+            console.log("Connected!");
+        });
+        
+        socket.on('disconnect', function (reason) { 
+            console.log("Disconnected!");
+            
+            var myelement = document.getElementById("status_users");
+            myelement.innerHTML= "N/A";
+        });
+
+        socket.on('user_count', function (count) { 
+            console.log("Usercount",count);            
+            var myelement = document.getElementById("status_users");
+            myelement.innerHTML= count;
+        });
+        
         socket.on('data', function (force, angle) {
                 var el = document.getElementById('force');
                 el.innerHTML = force;
                 var el = document.getElementById('angle');
                 el.innerHTML = angle;
+            }
+        );
+        socket.on('move', function (force, angle) {
+                var el = document.getElementById('state');
+                el.innerHTML = "MOVE";
+
+            }
+        );
+        socket.on('stop', function (force, angle) {
+                var el = document.getElementById('state');
+                el.innerHTML = "STOP";
+                var el = document.getElementById('force');
+                el.innerHTML = 0;
+                var el = document.getElementById('angle');
+                el.innerHTML = 0;
             }
         );
     

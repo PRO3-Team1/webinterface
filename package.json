@@ -1,5 +1,5 @@
 {
-    "name": "nipple",
+    "name": "webinterface",
     "version": "1.0.0",
     "keywords": [
         "util",
@@ -16,7 +16,6 @@
   },
     "dependencies": {
         "express": "^4.15.4",
-        "mqtt": "^2.13.0",
         "socket.io": "^2.0.3"
     }
 }
