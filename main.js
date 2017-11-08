@@ -1,10 +1,9 @@
-/* Dette er den del af koden der vil være implementeret på target (BeagleBone Black / Demo page) */
-
+/* Dette er kode der kører på webserveren */
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http, { origins: '*:*'});
 
-// Listening port er port 80 fra BBB / Demo pages perspektiv
+// Listening port er port 80 fra web servers perspektiv
 var listening_port = process.env.PORT || 80; 
 
 // Her henter vi 
