@@ -1,10 +1,21 @@
 <!DOCTYPE html>
+<!-- Websiden der bliver brugt til at hoste joysticket bliver sat op med et HTML / CSS
+	 framework til at håndtere de statiske elementer, så som hvordan siden skal
+	 fortolkes af browseren og hvor de forskellige elementer skal være på siden -->
 <html>
-    <head>
-        <meta charset="utf-8">
+    <head> 
+		 <!-- Meta data bliver brugt af den browser der skal vise html dokumentet
+		 her vælges ASCII karakter sættet "utf-8" viewport sættes. Viewport er
+		 brugerens synlige område af web siden. Hvilket kan variere imellem
+		 enheder med forskellige skærmtyper-->
+        <meta charset="utf-8"> 
         <title>Team1 - Robot Control!</title>
         <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=0.5">
         <style>
+		<!-- CSS parametrene for de forskellige elementer af websiden sættes. 
+		De vælger hvor henne på websiden et element skal placeres, enten i forhold
+		til et andet element, eller et fikseret sted, ikke alle skærme har lige mange
+		pixels og derfor bliver man nødt til at gøre det på denne måde.-->
         html, body {
             position: absolute;
             top: 0;
@@ -35,56 +46,81 @@
     <body>
         <div id="joystick_area"></div>
         <div id="status"><span id="status_users">N/A</span> Users</div>
+		<!-- script keyworded betyder at vi benytter os af JavaScript. Her fortæller vi
+			 gæste enheden hvor den skal downloade det script der skal køres-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.6.7/nipplejs.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-        <script>
+        
+		<!-- alt under dette tag er JavaScript -->
+		<script>
+		
          
         var socket = io();
             
+			// Her oprettes et dynamisk joystick element 
         var joystick = nipplejs.create({
-            zone: document.getElementById('joystick_area'),
+			/*Her vælges at joystick elementet skal placeres 
+			i det joystick_area der blev defineret i CSS sektionen*/
+            zone: document.getElementById('joystick_area'), 
             mode: 'static',
             position: { left: '50%', top: '50%' },
             color: 'green',
             size: 400
         });
         
+		/* Denne funktion beskriver det eventflow der finder sted
+		når en ny bruger logger på. I dette tilfælde skrives der "Connected!"
+		ud på konsollen*/
         socket.on('connect', function (data) {
             console.log("Connected!");
         });
-        
+        /* Denne funktion beskriver det eventflow der finder sted
+		når en ny bruger logger af. I dette tilfælde skrives der "Disconnected!"
+		ud på konsollen*/
         socket.on('disconnect', function (reason) { 
             console.log("Disconnected!");
-            
+           
+		/* TODO:   */ 
             var myelement = document.getElementById("status_users");
             myelement.innerHTML= "N/A";
         });
 
+		/* TODO:   */
         socket.on('user_count', function (count) { 
             console.log("Usercount",count);            
             var myelement = document.getElementById("status_users");
             myelement.innerHTML= count;
         });
-
+		
+		/* Eventflow ved on('start'): (Tester at joysticket bliver betjent)
+		socket objektet kalder sin emit() metode med parametren 'start'
+		Dette resulterer i at beskeden 'start' bliver sendt fra klienten
+		til web serveren*/
         joystick.on('start', function (evt) { 
             socket.emit('start');
         });
-
+		
+		/* Samme som 'start' bare med 'end' og testen er at joysticket ikke
+		bliver betjent*/
         joystick.on('end', function (evt) { 
             socket.emit('end');
         });
 
+		/* Joysticket sender kun data hvis det bliver bevæget, også selvom det bliver bejtent */
         joystick.on('move', function (evt, data) { 
-            if ( typeof joystick.old_force === 'undefined' ) {
+			// Her sikrer vi os at joysticket bliver nulstillet korrekt
+            if ( typeof joystick.old_force === 'undefined' ) { 
                    this.old_force = 0;
                    this.old_angle = 0;
             }
 
+			// Her udregnes kraft faktoren og på samme tid sørger vi for at kraft faktoren aldrig ka blive over 1
             force = Math.round(data.force * 1000) / 1000;
             if(force > 1) 
                 force = 1;
             angle = Math.round(data.angle.radian * 100) / 100;
 
+			// Hvis force ikke har ændret sig, ELLER hvis vinkel ikke har ændret sig
             if(force != joystick.old_force || angle != joystick.old_angle) 
             {
                 joystick.old_force = force;
