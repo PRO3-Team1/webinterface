@@ -50,20 +50,20 @@
             myelement.innerHTML= count;
         });
         
-        socket.on('data', function (force, angle) {
+        socket.on('move', function (force, angle) {
                 var el = document.getElementById('force');
                 el.innerHTML = force;
                 var el = document.getElementById('angle');
                 el.innerHTML = angle;
             }
         );
-        socket.on('move', function (force, angle) {
+        socket.on('start', function (force, angle) {
                 var el = document.getElementById('state');
                 el.innerHTML = "MOVE";
 
             }
         );
-        socket.on('stop', function (force, angle) {
+        socket.on('end', function (force, angle) {
                 var el = document.getElementById('state');
                 el.innerHTML = "STOP";
                 var el = document.getElementById('force');
