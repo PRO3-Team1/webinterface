@@ -53,7 +53,7 @@
             console.log("Inactive user... Lets disconnect");
             socket.disconnect();
         }
-        var timeoutHandle = setTimeout(handle_timeout, 15000);	
+        var timeoutHandle = setTimeout(handle_timeout, 30000);	
             
 			// Her oprettes et dynamisk joystick element 
         var joystick = nipplejs.create({
@@ -108,7 +108,7 @@
         joystick.on('move', function (evt, data) { 
             //Nulstil og start vores timeout på inaktivitet
             clearTimeout(timeoutHandle);
-            timeoutHandle = setTimeout(handle_timeout, 15000);
+            timeoutHandle = setTimeout(handle_timeout, 30000);
             // Nulstil vores variabler
             if ( typeof joystick.old_force === 'undefined' ) { 
                    this.old_force = 0;
