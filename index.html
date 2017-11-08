@@ -114,7 +114,7 @@
                    this.old_angle = 0;
             }
 
-			// Her udregnes kraft faktoren og på samme tid sørger vi for at kraft faktoren aldrig ka blive over 1
+			// Her afrundes kraft faktoren og vinklen, og på samme tid sørges der for at kraft faktoren aldrig bliver over 1
             force = Math.round(data.force * 1000) / 1000;
             if(force > 1) 
                 force = 1;
