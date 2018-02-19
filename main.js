@@ -1,7 +1,7 @@
 /* Dette er kode der kører på webserveren */
 var app = require('express')();
 var http = require('http').Server(app);
-var io = require('socket.io')(http, { origins: '*:*'});
+var io = require('socket.io')(http, { origins: '*:*',  pingInterval: 5000, pingTimeout: 2500,});
 
 //Listening port er port 80 fra web servers perspektiv
 //Accepter også port fra enviroment variable
